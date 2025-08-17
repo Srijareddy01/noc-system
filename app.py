@@ -705,10 +705,21 @@ def reject_noc(token):
     </body>
     </html>
     """
+if __name__ == "__main__":
+    import os
 
-if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-        initialize_admin() # Ensure admin user is created
+        initialize_admin()       # Ensure admin user is created
         initialize_departments() # Initialize faculty on startup
-    socketio.run(app, debug=True, host='0.0.0.0', port=8000)
+
+    # Use PORT from environment (Render sets this automatically)
+    port = int(os.environ.get("PORT", 10000))
+
+    socketio.run(app, debug=True, host="0.0.0.0", port=port)
+
+if __name__ != "__main__":
+    with app.app_context():
+        db.create_all()
+        initialize_admin()
+        initialize_departments()
