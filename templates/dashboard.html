@@ -1,0 +1,135 @@
+{% extends "base.html" %} {% block title %}Dashboard - NOC System{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-12">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2><i class="fas fa-tachometer-alt me-2"></i>Student Dashboard</h2>
+      <a href="{{ url_for('request_noc') }}" class="btn btn-primary">
+        <i class="fas fa-plus-circle me-2"></i>Request New NOC
+      </a>
+
+    </div>
+
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card text-center">
+          <div class="card-body">
+            <i class="fas fa-file-alt fa-3x text-primary mb-3"></i>
+            <h4>{{ noc_requests|length }}</h4>
+            <p class="text-muted">Total Requests</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card text-center">
+          <div class="card-body">
+            <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
+            <h4>
+              {{ noc_requests|selectattr('status', 'equalto',
+              'approved')|list|length }}
+            </h4>
+            <p class="text-muted">Approved</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card text-center">
+          <div class="card-body">
+            <i class="fas fa-clock fa-3x text-warning mb-3"></i>
+            <h4>
+              {{ noc_requests|selectattr('status', 'equalto',
+              'pending')|list|length }}
+            </h4>
+            <p class="text-muted">Pending</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mt-4">
+      <div class="card-header">
+        <h4><i class="fas fa-history me-2"></i>Your NOC Requests</h4>
+      </div>
+      <div class="card-body">
+        {% if noc_requests %}
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Request #</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Progress</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for request in noc_requests %}
+              <tr>
+                <td>{{ request.request_number }}</td>
+                <td>{{ request.created_at.strftime('%Y-%m-%d') }}</td>
+                <td>
+                  {% if request.status == 'approved' %}
+                  <span class="badge bg-success">Approved</span>
+                  {% elif request.status == 'rejected' %}
+                  <span class="badge bg-danger">Rejected</span>
+                  {% else %}
+                  <span class="badge bg-warning">Pending</span>
+                  {% endif %}
+                </td>
+                <td>
+                  {% set total_depts = request.statuses|length %} {% set
+                  approved_depts = request.statuses|selectattr('status',
+                  'equalto', 'approved')|list|length %} {% set rejected_depts =
+                  request.statuses|selectattr('status', 'equalto',
+                  'rejected')|list|length %}
+
+                  <div class="progress" style="height: 20px">
+                    {% if rejected_depts > 0 %}
+                    <div class="progress-bar bg-danger" style="width: 100%">
+                      Rejected
+                    </div>
+                    {% else %}
+                    <div
+                      class="progress-bar bg-success"
+                      style="width: {{ (approved_depts / total_depts * 100) }}%"
+                    >
+                      {{ approved_depts }}/{{ total_depts }}
+                    </div>
+                    {% endif %}
+                  </div>
+                </td>
+                <td>
+                  <a
+                    href="{{ url_for('track_request', request_id=request.id) }}"
+                    class="btn btn-sm btn-info"
+                  >
+                    <i class="fas fa-eye"></i> Track
+                  </a>
+                  {% if request.completed and request.status == 'approved' %}
+                  <a
+                    href="{{ url_for('download_noc', request_number=request.request_number, roll_no=request.student.roll_no) }}"
+                    class="btn btn-sm btn-success"
+                  >
+                    <i class="fas fa-download"></i> Download
+                  </a>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+          <i class="fas fa-file-alt fa-4x text-muted mb-3"></i>
+          <h4 class="text-muted">No NOC requests yet</h4>
+          <p class="text-muted">Start by creating your first NOC request</p>
+
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

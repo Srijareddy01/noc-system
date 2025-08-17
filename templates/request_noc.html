@@ -1,0 +1,106 @@
+{% extends "base.html" %} {% block title %}Request NOC - NOC System{% endblock
+%} {% block content %}
+<div class="row">
+  <div class="col-lg-8 mx-auto">
+    <div class="card">
+      <div class="card-header text-center">
+        <h3>
+          <i class="fas fa-file-alt me-2"></i>Request No Objection Certificate
+        </h3>
+      </div>
+      <div class="card-body">
+        <div class="alert alert-info">
+          <i class="fas fa-info-circle me-2"></i>
+          <strong>Note:</strong> Your NOC request will be sent to all relevant
+          departments automatically. You can track the progress in real-time
+          from your dashboard.
+        </div>
+
+        <form method="POST" action="{{ url_for('request_noc') }}">
+          <div class="mb-4">
+            <h5>Student Information</h5>
+            <div class="row">
+              <div class="col-md-6">
+                <p><strong>Name:</strong> {{ current_user.full_name }}</p>
+              </div>
+              <div class="col-md-6">
+                <p>
+                  <strong>Roll Number:</strong> {{ current_user.roll_no }}
+                </p>
+              </div>
+              <div class="col-md-6">
+                <p><strong>Email:</strong> {{ current_user.email }}</p>
+              </div>
+              <div class="col-md-6">
+                <p>
+                  <strong>Department:</strong> {{ current_user.department }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <h5>Departments for NOC</h5>
+            <div class="alert alert-warning">
+              <i class="fas fa-exclamation-triangle me-2"></i>
+              Your request will be sent to the following departments:
+            </div>
+            {% for department in departments %}
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="departments"
+                value="{{ department.name }}"
+                id="dept{{ department.name | replace(' ', '') }}"
+              />
+              <label class="form-check-label" for="dept{{ department.name | replace(' ', '') }}">
+                <i class="fas fa-building me-2"></i>{{ department.name }}
+              </label>
+            </div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-4">
+            <h5>Purpose of NOC</h5>
+            <div class="mb-3">
+              <label for="purpose" class="form-label"
+                >Please specify the purpose for which you need the NOC</label
+              >
+              <textarea
+                class="form-control"
+                id="purpose"
+                name="purpose"
+                rows="3"
+                placeholder="e.g., Internship, Job Application, Higher Studies, etc."
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="terms"
+                required
+              />
+              <label class="form-check-label" for="terms">
+                I confirm that all the information provided is accurate and I
+                understand that any false information may lead to rejection of
+                my NOC request.
+              </label>
+            </div>
+          </div>
+
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary btn-lg">
+              <i class="fas fa-paper-plane me-2"></i>Submit NOC Request
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

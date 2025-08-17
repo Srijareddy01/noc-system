@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 1in; /* Keep proper margin for A4 */
+        font-size: 12px;
+      }
+      .header {
+        text-align: center;
+        margin-bottom: 10px;
+      }
+      .header img {
+        width: 200px; /* increased size */
+        height: auto;
+        display: block;
+        margin: 0 auto 10px auto; /* center and add spacing below */
+      }
+      h2 {
+        text-align: center;
+        margin: 5px 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 10px 0;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid #000;
+      }
+      th,
+      td {
+        padding: 6px;
+        text-align: left;
+        font-size: 12px;
+      }
+      .accepted {
+        color: green;
+        font-weight: bold;
+      }
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 30px;
+      }
+      .footer div {
+        width: 30%;
+        text-align: center;
+        font-size: 12px;
+      }
+      .remarks {
+        border: 1px solid #000;
+        height: 40px;
+        padding: 5px;
+        margin-top: 15px;
+      }
+      .scholarship {
+        border: 1px solid #000;
+        padding: 8px;
+        margin-top: 10px;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <img src="{{ logo_path }}" alt="Logo" />
+      <h2>NO OBJECTION CERTIFICATE</h2>
+    </div>
+
+    <p>
+      Reference No: <b>NOC-NOC-20250816-7D9A6794</b> &nbsp;&nbsp;&nbsp; Date:
+      <b>16/08/2025</b>
+    </p>
+
+    <p>
+      Certified that Ms. <b>{{ student.full_name }}</b> &nbsp;&nbsp;&nbsp; H.T
+      No: <b>{{ student.roll_no }}</b> &nbsp;&nbsp;&nbsp; B.Tech:
+      <b>{{ student.department }}</b> &nbsp;&nbsp;&nbsp; has “NO DUES” to the
+      college. This certificate is issued upon the student’s request and after
+      verification that all departmental clearances have been obtained.
+    </p>
+
+    <table>
+      <tr>
+        <th>Name of the Department/Section</th>
+        <th>Status</th>
+      </tr>
+      <tr>
+        <td>Training & Placement Cell</td>
+        <td class="accepted">Accepted</td>
+      </tr>
+      <tr>
+        <td>Sports / Games</td>
+        <td class="accepted">Accepted</td>
+      </tr>
+      <tr>
+        <td>Examination Branch</td>
+        <td class="accepted">Accepted</td>
+      </tr>
+      <tr>
+        <td>Library</td>
+        <td class="accepted">Accepted</td>
+      </tr>
+      <tr>
+        <td>Alumni Association</td>
+        <td class="accepted">Accepted</td>
+      </tr>
+      <tr>
+        <td>IEEE / ISTE / CSI</td>
+        <td class="accepted">Accepted</td>
+      </tr>
+      <tr>
+        <td>Mentor</td>
+        <td class="accepted">Accepted</td>
+      </tr>
+      <tr>
+        <td>Account Section</td>
+        <td>
+          Tuition Fee □ <br />
+          Bus Fee □ <br />
+          Hostel Fee □ <br />
+          Other Fee □
+        </td>
+      </tr>
+    </table>
+
+    <div class="scholarship">
+      <b>IF Scholarship (RTF) Holder</b><br />
+      Scholarship Application No: __________ <br />
+      Scholarship Status (Attach Status Report): __________
+    </div>
+
+    <p><b>Remarks of the HoD:</b></p>
+    <div class="remarks"></div>
+
+    <div class="footer">
+      <div>Administrative Officer</div>
+      <div>Principal</div>
+    </div>
+  </body>
+</html>

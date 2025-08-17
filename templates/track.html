@@ -1,0 +1,207 @@
+{% extends "base.html" %} {% block title %}Track Request {{
+noc_request.request_number }} - NOC System{% endblock %} {% block content %}
+<div class="row">
+  <div class="col-12">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2>
+        <i class="fas fa-search me-2"></i>
+        Track Request: {{ noc_request.request_number }}
+      </h2>
+      <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+      </a>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header">
+            <h5><i class="fas fa-info-circle me-2"></i>Request Details</h5>
+          </div>
+          <div class="card-body">
+            <p>
+              <strong>Request Number:</strong><br />{{
+              noc_request.request_number }}
+            </p>
+            <p>
+              <strong>Date Submitted:</strong><br />{{
+              noc_request.created_at.strftime('%B %d, %Y at %I:%M %p') }}
+            </p>
+            <p>
+              <strong>Status:</strong><br />
+              {% if noc_request.status == 'approved' %}
+              <span class="badge bg-success fs-6">Approved</span>
+              {% elif noc_request.status == 'rejected' %}
+              <span class="badge bg-danger fs-6">Rejected</span>
+              {% else %}
+              <span class="badge bg-warning fs-6">In Progress</span>
+              {% endif %}
+            </p>
+            {% if noc_request.completed and noc_request.status == 'approved' %}
+            <a
+              href="{{ url_for('download_noc', request_number=noc_request.request_number, roll_no=noc_request.roll_no) }}"
+              }]}}}
+              class="btn btn-success me-2"
+            >
+              <i class="fas fa-download me-2"></i>Download NOC
+            </a>
+            <a
+              
+              class="btn btn-info"
+              target="_blank"
+            >
+              <i class="fas fa-eye me-2"></i>View NOC
+            </a>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="card mt-3">
+          <div class="card-header">
+            <h5><i class="fas fa-user me-2"></i>Student Information</h5>
+          </div>
+          <div class="card-body">
+            <p>
+              <strong>Name:</strong><br />{{ noc_request.student.full_name }}
+            </p>
+            <p>
+              <strong>Roll Number:</strong><br />{{ noc_request.student.roll_no
+              }}
+            </p>
+            <p><strong>Email:</strong><br />{{ noc_request.student.email }}</p>
+            <p>
+              <strong>Department:</strong><br />{{
+              noc_request.student.department }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">
+            <h5><i class="fas fa-list-check me-2"></i>Department Approvals</h5>
+          </div>
+          <div class="card-body">
+            <div class="timeline">
+              {% for status in statuses %}
+              <div class="timeline-item mb-4">
+                <div class="timeline-marker">
+                  {% if status.status == 'approved' %}
+                  <i class="fas fa-check-circle text-success"></i>
+                  {% elif status.status == 'rejected' %}
+                  <i class="fas fa-times-circle text-danger"></i>
+                  {% else %}
+                  <i class="fas fa-clock text-warning"></i>
+                  {% endif %}
+                </div>
+                <div class="timeline-content">
+                  <div class="card">
+                    <div
+                      class="card-header d-flex justify-content-between align-items-center"
+                    >
+                      <h6 class="mb-0">{{ status.department.name }}</h6>
+                      <span
+                        class="badge {% if status.status == 'approved' %}bg-success {% elif status.status == 'rejected' %}bg-danger {% else %}bg-warning {% endif %}"
+                      >
+                        {{ status.status.title() }}
+                      </span>
+                    </div>
+                    <div class="card-body">
+                      {% if status.status != 'pending' %}
+                      <p>
+                        <strong>Updated:</strong> {{
+                        status.updated_at.strftime('%B %d, %Y at %I:%M %p') }}
+                      </p>
+                      {% if status.approved_by %}
+                      <p>
+                        <strong>Action by:</strong> {{ status.approved_by }}
+                      </p>
+                      {% endif %} {% if status.reason and status.status ==
+                      'rejected' %}
+                      <div class="alert alert-danger">
+                        <strong>Reason for rejection:</strong><br />
+                        {{ status.reason }}
+                      </div>
+                      {% endif %} {% else %}
+                      <p class="text-muted">Waiting for department review</p>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .timeline {
+    position: relative;
+    padding-left: 40px;
+  }
+  .timeline-item {
+    position: relative;
+    padding-left: 30px;
+  }
+  .timeline-item::before {
+    content: "";
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: -20px;
+    width: 2px;
+    background: #dee2e6;
+  }
+  .timeline-item:last-child::before {
+    bottom: 0;
+  }
+  .timeline-marker {
+    position: absolute;
+    left: 7px;
+    top: 10px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+  }
+  .timeline-marker i {
+    font-size: 1.2rem;
+  }
+  .timeline-content {
+    margin-left: 10px;
+  }
+</style>
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+<script>
+  // Real-time updates
+  const socket = io();
+
+  socket.on('status_update', function(data) {
+      if (data.request_id === {{ noc_request.id }}) {
+          location.reload(); // Simple refresh for now
+      }
+  });
+
+  // Auto-refresh every 30 seconds
+  setInterval(function() {
+      fetch('{{ url_for("api_track_request", request_number=noc_request.request_number) }}')
+          .then(response => response.json())
+          .then(data => {
+              if (data.completed) {
+                  location.reload();
+              }
+          });
+  }, 30000);
+</script>
+{% endblock %} {% endblock %}

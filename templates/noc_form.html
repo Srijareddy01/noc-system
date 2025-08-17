@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>No Objection Certificate</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f5f5dc; /* Beige background */
+        font-family: Arial, sans-serif;
+      }
+      .container {
+        background-color: #ffffff;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        max-width: 800px;
+        margin: 2rem auto;
+      }
+      .header img {
+        max-width: 200px;
+        margin-bottom: 1rem;
+      }
+      .table-auto {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .table-auto th,
+      .table-auto td {
+        border: 1px solid #e2e8f0;
+        padding: 0.75rem;
+        text-align: left;
+      }
+      .table-auto th {
+        background-color: #f8f8f8;
+      }
+      .accepted {
+        color: green;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header text-center mb-8">
+        <img
+          src="{{ url_for('static', filename='logo3.png') }}"
+          alt="Sumathi Reddy Institute Logo"
+          class="mx-auto"
+        />
+        <h1 class="text-2xl font-bold mt-4">NO OBJECTION CERTIFICATE</h1>
+      </div>
+
+      <div class="mb-4">
+        <p><strong>Reference No:</strong> NOC-206529</p>
+        <p><strong>Date:</strong> 15/08/2025</p>
+      </div>
+
+      <div class="mb-4">
+        <p>
+          Certified that Ms.
+          <input
+            type="text"
+            class="border-b border-gray-400 focus:outline-none focus:border-blue-500 w-64"
+          />
+          H.T No:
+          <input
+            type="text"
+            class="border-b border-gray-400 focus:outline-none focus:border-blue-500 w-32"
+          />
+          B.Tech:
+          <input
+            type="text"
+            class="border-b border-gray-400 focus:outline-none focus:border-blue-500 w-32"
+          />
+          has "NO DUES" to the college.
+        </p>
+        <p class="text-sm text-gray-600 mt-2">
+          This certificate is issued upon the student's request and after
+          verification that all departmental clearances have been obtained.
+        </p>
+      </div>
+
+      <h2 class="text-xl font-semibold mb-4">Departmental Approvals:</h2>
+      <table class="table-auto mb-8">
+        <thead>
+          <tr>
+            <th class="w-1/2">Name of the Department/Section</th>
+            <th class="w-1/2">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Examination Branch</td>
+            <td class="accepted">Accepted</td>
+          </tr>
+          <tr>
+            <td>Library</td>
+            <td class="accepted">Accepted</td>
+          </tr>
+          <tr>
+            <td>Account Section</td>
+            <td>
+              <div class="flex justify-between items-center mb-2">
+                <span>Tuition Fee</span>
+                <input
+                  type="text"
+                  class="border-b border-gray-400 focus:outline-none focus:border-blue-500 w-24"
+                />
+              </div>
+              <div class="flex justify-between items-center mb-2">
+                <span>Bus Fee</span>
+                <input
+                  type="text"
+                  class="border-b border-gray-400 focus:outline-none focus:border-blue-500 w-24"
+                />
+              </div>
+              <div class="flex justify-between items-center mb-2">
+                <span>Hostel Fee</span>
+                <input
+                  type="text"
+                  class="border-b border-gray-400 focus:outline-none focus:border-blue-500 w-24"
+                />
+              </div>
+              <div class="flex justify-between items-center mb-2">
+                <span>Other Fee</span>
+                <input
+                  type="text"
+                  class="border-b border-gray-400 focus:outline-none focus:border-blue-500 w-24"
+                />
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Training and Placement Officer</td>
+            <td class="accepted">Accepted</td>
+          </tr>
+          <tr>
+            <td>IEEE/ISTE/CSI</td>
+            <td class="accepted">Accepted</td>
+          </tr>
+          <tr>
+            <td>Sports/Games</td>
+            <td class="accepted">Accepted</td>
+          </tr>
+          <tr>
+            <td>Mentor</td>
+            <td class="accepted">Accepted</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Alumni Association</td>
+            <td class="accepted">Accepted</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="mb-4">
+        This NOC is valid for a period of 6 months from the date of issue.
+      </p>
+
+      <h2 class="text-xl font-semibold mb-4">IF Scholarship (RTF) Holder</h2>
+      <table class="table-auto mb-8">
+        <thead>
+          <tr>
+            <th class="w-1/2"></th>
+            <th class="w-1/2"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Scholarship Application No.</td>
+            <td>
+              <input
+                type="text"
+                class="border-b border-gray-400 focus:outline-none focus:border-blue-500 w-full"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>Scholarship Status (Attach Status Report)</td>
+            <td>
+              <input
+                type="text"
+                class="border-b border-gray-400 focus:outline-none focus:border-blue-500 w-full"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="mb-8">
+        <p>
+          Remarks of the HoD:
+          <input
+            type="text"
+            class="border-b border-gray-400 focus:outline-none focus:border-blue-500 w-full"
+          />
+        </p>
+      </div>
+
+      <div class="flex justify-between text-center mt-16">
+        <div class="w-1/3">
+          <p>Head of Department</p>
+        </div>
+        <div class="w-1/3">
+          <p>Administrative Officer</p>
+        </div>
+        <div class="w-1/3">
+          <p>Principal</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

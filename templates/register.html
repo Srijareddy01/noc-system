@@ -1,0 +1,135 @@
+{% extends "base.html" %} {% block title %}Register - NOC System{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-lg-6 mx-auto">
+    <div class="card">
+      <div class="card-header text-center">
+        <h3><i class="fas fa-user-plus me-2"></i>Student Registration</h3>
+      </div>
+      <div class="card-body">
+        <form method="POST" action="{{ url_for('register') }}">
+          <div class="mb-3">
+            <label for="full_name" class="form-label">Full Name *</label>
+            <input
+              type="text"
+              class="form-control"
+              id="full_name"
+              name="full_name"
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="email" class="form-label">Email Address *</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              name="email"
+              required
+            />
+            <div class="form-text">Use your college email address</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="roll_no" class="form-label">Roll Number *</label>
+            <input
+              type="text"
+              class="form-control"
+              id="roll_no"
+              name="roll_no"
+              required
+            />
+            <div class="form-text">e.g., 2021CS001</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="department" class="form-label">Department *</label>
+            <select
+              class="form-select"
+              id="department"
+              name="department"
+              required
+            >
+              <option value="">Select Department</option>
+              <option value="CSE">CSE</option>
+              <option value="CSM">CSM</option>
+              <option value="CSD">CSD</option>
+              <option value="CSC">CSC</option>
+              <option value="ECE">ECE</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="mentor" class="form-label">Mentor *</label>
+            <select
+              class="form-select"
+              id="mentor"
+              name="mentor"
+              required
+            >
+              <option value="">Select Mentor</option>
+              <option value="Mentor1">Mentor 1</option>
+              <option value="Mentor2">Mentor 2</option>
+              <option value="Mentor3">Mentor 3</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">Password *</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              name="password"
+              required
+              minlength="6"
+            />
+            <div class="form-text">Minimum 6 characters</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="confirm_password" class="form-label"
+              >Confirm Password *</label
+            >
+            <input
+              type="password"
+              class="form-control"
+              id="confirm_password"
+              name="confirm_password"
+              required
+              minlength="6"
+            />
+          </div>
+
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-user-plus me-2"></i>Register
+            </button>
+          </div>
+        </form>
+
+        <div class="text-center mt-3">
+          <p>
+            Already have an account?
+            <a href="{{ url_for('login') }}">Login here</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Password confirmation validation
+  document.querySelector("form").addEventListener("submit", function (e) {
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirm_password").value;
+
+    if (password !== confirmPassword) {
+      e.preventDefault();
+      alert("Passwords do not match!");
+    }
+  });
+</script>
+{% endblock %}
