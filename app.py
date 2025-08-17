@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import datetime
 import os
 import secrets
-# from weasyprint import HTML
+from weasyprint import HTML
 from dotenv import load_dotenv
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
@@ -33,12 +33,10 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # Email configuration
 app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER', 'smtp.gmail.com')
 app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT', 587))
-app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS', 'True') == 'True'
-
+app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
-app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER', app.config['MAIL_USERNAME'])
-
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_USERNAME')
 
 db = SQLAlchemy(app)
 mail = Mail(app)
@@ -136,16 +134,14 @@ def initialize_departments():
         if Department.query.first():
             return # Departments already exist, do not re-initialize
         departments_to_add = [
-            {'name': 'TPO', 'email': 'tpo@example.com', 'head_name': 'Dr. S. P. Singh', 'type': 'administrative', 'designation': None},
-            {'name': 'Sports', 'email': 'sports@example.com', 'head_name': 'Dr. P. V. Ramana', 'type': 'administrative', 'designation': None},
-            {'name': 'Library', 'email': 'library@example.com', 'head_name': 'Dr. K. L. N. Rao', 'type': 'administrative', 'designation': None},
-            {'name': 'Hostel', 'email': 'hostel@example.com', 'head_name': 'Dr. M. K. Sharma', 'type': 'administrative', 'designation': None},
-            {'name': 'Accounts', 'email': 'accounts@example.com', 'head_name': 'Mr. R. K. Gupta', 'type': 'administrative', 'designation': None},
-            {'name': 'Academics', 'email': 'academics@example.com', 'head_name': 'Dr. A. K. Singh', 'type': 'academic', 'designation': None},
-            {'name': 'Examination', 'email': 'examination@example.com', 'head_name': 'Dr. V. K. Singh', 'type': 'academic', 'designation': None},
-            {'name': 'Scholarship', 'email': 'scholarship@example.com', 'head_name': 'Dr. S. K. Singh', 'type': 'administrative', 'designation': None},
-            {'name': 'Admission', 'email': 'admission@example.com', 'head_name': 'Dr. D. K. Singh', 'type': 'administrative', 'designation': None},
-            {'name': 'Placement', 'email': 'placement@example.com', 'head_name': 'Dr. G. K. Singh', 'type': 'administrative', 'designation': None}
+            {'name': 'Training & Placement Cell', 'email': 'shivanipqtturi22@gmail.com', 'head_name': 'Dr. S. P. Singh', 'type': 'administrative', 'designation': None},
+            {'name': 'Sports / Games', 'email': '226y1a66e3@gmail.com', 'head_name': 'Dr. P. V. Ramana', 'type': 'administrative', 'designation': None},
+            {'name': 'Examination Branch', 'email': '226y1a66e8@gmail.com', 'head_name': 'Dr. K. L. N. Rao', 'type': 'administrative', 'designation': None},
+            {'name': 'Library', 'email': 'pallasrija.edunet@gmail.com', 'head_name': 'Dr. M. K. Sharma', 'type': 'administrative', 'designation': None},
+            {'name': 'Alumni Association', 'email': 'pallapranavika18@gmail.com', 'head_name': 'Mr. R. K. Gupta', 'type': 'administrative', 'designation': None},
+            {'name': 'IEEE / ISTE / CSI', 'email': 'pallasrija8724@gmail.com', 'head_name': 'Dr. V. K. Singh', 'type': 'academic', 'designation': None},
+            {'name': 'Mentor', 'email': 'psrija27@gmail.com', 'head_name': 'Dr. S. K. Singh', 'type': 'administrative', 'designation': None},
+            
         ]
 
         with app.app_context():
@@ -480,7 +476,7 @@ def download_noc(request_number, roll_no):
 
     logo_path = 'file:///' + os.path.join(app.root_path, 'static', 'logo3.png').replace('\\', '/')
 
-    rendered_html = render_template('noc_certificate.html', noc_request=noc_request, student=student, logo_path=logo_path, noc_statuses=noc_request.statuses)
+    rendered_html = render_template('noc_certificate.html', noc_request=noc_request, student=student, logo_path=logo_path)
     pdf_content = HTML(string=rendered_html).write_pdf()
 
     response = make_response(pdf_content)
@@ -587,7 +583,7 @@ def init_db():
         
         # Add default departments if not exists
         departments = [
-            {'name': 'TPO', 'email': 'shivanipatturi22@gmail.com', 'head_name': 'TPO Head'},
+            {'name': 'Training & Placement Cell', 'email': 'shivanipatturi22@gmail.com', 'head_name': 'TPO Head'},
             {'name': 'Library', 'email': 'kopperaanu7@gmail.com', 'head_name': 'Librarian'},
             {'name': 'IEEE', 'email': 'sahithyagandhe@gmail.com', 'head_name': 'IEEE Coordinator'},
             {'name': 'Sports', 'email': 'pasunuthiheshwanthini@gmail.com', 'head_name': 'Sports Director'},
@@ -705,21 +701,10 @@ def reject_noc(token):
     </body>
     </html>
     """
-if __name__ == "__main__":
-    import os
 
+if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-        initialize_admin()       # Ensure admin user is created
+        initialize_admin() # Ensure admin user is created
         initialize_departments() # Initialize faculty on startup
-
-    # Use PORT from environment (Render sets this automatically)
-    port = int(os.environ.get("PORT", 10000))
-
-    socketio.run(app, debug=True, host="0.0.0.0", port=port)
-
-if __name__ != "__main__":
-    with app.app_context():
-        db.create_all()
-        initialize_admin()
-        initialize_departments()
+    socketio.run(app, debug=True, host='0.0.0.0', port=10000)

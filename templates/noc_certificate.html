@@ -90,43 +90,12 @@
         <th>Name of the Department/Section</th>
         <th>Status</th>
       </tr>
+      {% for status in noc_request.statuses %}
       <tr>
-        <td>Training & Placement Cell</td>
-        <td class="accepted">Accepted</td>
+        <td>{{ status.department.name }}</td>
+        <td class="{{ status.status }}">{{ status.status.capitalize() }}</td>
       </tr>
-      <tr>
-        <td>Sports / Games</td>
-        <td class="accepted">Accepted</td>
-      </tr>
-      <tr>
-        <td>Examination Branch</td>
-        <td class="accepted">Accepted</td>
-      </tr>
-      <tr>
-        <td>Library</td>
-        <td class="accepted">Accepted</td>
-      </tr>
-      <tr>
-        <td>Alumni Association</td>
-        <td class="accepted">Accepted</td>
-      </tr>
-      <tr>
-        <td>IEEE / ISTE / CSI</td>
-        <td class="accepted">Accepted</td>
-      </tr>
-      <tr>
-        <td>Mentor</td>
-        <td class="accepted">Accepted</td>
-      </tr>
-      <tr>
-        <td>Account Section</td>
-        <td>
-          Tuition Fee □ <br />
-          Bus Fee □ <br />
-          Hostel Fee □ <br />
-          Other Fee □
-        </td>
-      </tr>
+      {% endfor %}
     </table>
 
     <div class="scholarship">
