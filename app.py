@@ -339,7 +339,7 @@ If rejecting, you will be prompted to provide a reason.
         )
         mail.send(msg)
     except Exception as e:
-        pass # Or add appropriate error handling
+        app.logger.error(f"Error sending email: {e}") # Log the error
 
 def send_completion_email(to_email, request_number, sender_email):
     try:
