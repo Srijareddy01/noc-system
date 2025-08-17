@@ -24,7 +24,7 @@ from flask_moment import Moment
 
 load_dotenv()
 
-app = Flask(__name__, template_folder="templates", static_folder="static")
+app = Flask(__name__)
 moment = Moment(app)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your-secret-key-here')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///noc_system.db'
